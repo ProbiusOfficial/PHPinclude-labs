@@ -1,0 +1,3 @@
+<?php
+    echo "ヾ(๑╹◡╹)ﾉ"♡ Hello-CTF";
+?>

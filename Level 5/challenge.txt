@@ -1,0 +1,1 @@
+<?php isset($_GET['Key'])&& 1==2 ? echo "<?= system('tac flag.???');?>" : die('Access Denied');?>
