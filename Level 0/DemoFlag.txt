@@ -1,0 +1,1 @@
+<?php $flag = "flag{Hello,CTF!}" ?>

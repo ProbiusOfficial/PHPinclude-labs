@@ -17,8 +17,13 @@ include("get_flag.php");
 不过可惜的是，引入file协议后你只能使用绝对路径。其次，由于include函数的特性，你引入的文件如果内容符合php语法，那么他会被执行，这也就意味着我们无法通过file协议或者直接使用include方式去获取存储在变量中的flag。
 
 依赖：
-allow_url_fopen:off/on
-allow_url_include :off/on
+allow_url_fopen:Off/On
+allow_url_include :Off/On
+
+该关卡配置:
+
+allow_url_fopen=Off
+allow_url_include=Off
 
 相关文件：
 - 当前目录下 phpinfo.txt 内容为：<?php phpinfo(); ?>

@@ -13,11 +13,11 @@ include("get_flag.php");
 本关卡你将只能使用 http/https 协议 (https://www.php.net/manual/zh/wrappers.http.php) — 常规 URL 形式，允许通过 HTTP 1.0 的 GET方法，以只读访问文件或资源，通常用于远程包含。
 注意远程文件需要为可读的文本形式。
 
-依赖：allow_url_fopen:on;allow_url_include:on;
+依赖：allow_url_fopen:On;allow_url_include:On;
 
 该关卡配置:
-allow_url_fopen:on
-allow_url_include:on
+allow_url_fopen:On
+allow_url_include:On
 
 相关文件：
 - 当前目录下 phpinfo.txt 内容为：<?php phpinfo(); ?>

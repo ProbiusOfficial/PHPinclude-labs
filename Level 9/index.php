@@ -11,8 +11,8 @@ include("get_flag.php");
 --- HelloCTF - 文件包含基础靶场 关卡 9 : php协议_php://filter_转换过滤器 --- 
 
 依赖：
-allow_url_fopen:off/on
-allow_url_include:off/on
+allow_url_fopen:Off/On
+allow_url_include:Off/On
 
 【转换过滤器】https://www.php.net/manual/zh/filters.convert.php
 - convert.base64-encode 和 convert.base64-decode

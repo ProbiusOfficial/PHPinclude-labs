@@ -13,8 +13,8 @@ include("get_flag.php");
 在 allow_url_include off 的情况下，data 协议是无法工作的x
 
 该关卡配置:
-allow_url_fopen:on
-allow_url_include:off
+allow_url_fopen:On
+allow_url_include:Off
 
 相关文件：
 - 当前目录下 flag.php 文件，flag以静态变量形式存储在文件中。

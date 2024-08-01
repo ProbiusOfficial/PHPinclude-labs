@@ -13,8 +13,8 @@ include("get_flag.php");
 Just a Simple Challenge www
  
 该关卡配置:
-allow_url_fopen:on
-allow_url_include:on
+allow_url_fopen:On
+allow_url_include:On
 
 相关文件：
 - challenge.txt 不妨先访问看看？

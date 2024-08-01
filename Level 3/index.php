@@ -13,8 +13,8 @@ include("get_flag.php");
 有了一些过滤，但是这肯定难不倒聪明的你ww
 
 该关卡配置:
-allow_url_fopen:on
-allow_url_include:on
+allow_url_fopen:On
+allow_url_include:On
 
 相关文件：
 - 当前目录下 flag.php 文件，flag以静态变量形式存储在文件中。
