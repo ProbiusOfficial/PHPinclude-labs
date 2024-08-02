@@ -10,8 +10,10 @@ include("get_flag.php");
 
 --- HelloCTF - 文件包含基础靶场 关卡 16 : FilterChain:THE_END_OF_LFI --- 
 
-可用脚本：https://github.com/synacktiv/php_filter_chain_generator
+可用脚本：https://github.com/ProbiusOfficial/PHP-FilterChain-Exploit
 相关文章：https://hello-ctf.feishu.cn/docx/PNRedwzpBoJdTdxKhIacb1v8nZe
+
+该关卡提供一个生成器 exp.php
 
 该关卡配置:
 allow_url_fopen:Off
