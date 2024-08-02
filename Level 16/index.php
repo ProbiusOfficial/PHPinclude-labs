@@ -4,7 +4,7 @@ include("get_flag.php");
 # -*- coding: utf-8 -*-
 # @Author: 探姬
 # @Date:   2024-07-28 20:30
-# @Repo:   github.com/ProbiusOfficial/PHPiclude-labs
+# @Repo:   github.com/ProbiusOfficial/PHPinclude-labs
 # @email:  admin@hello-ctf.com
 # @link:   hello-ctf.com
 
