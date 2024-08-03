@@ -71,13 +71,13 @@ Level 1 ~ Level 9 为协议部分的知识关卡，这部分在PHP手册也叫�
 
 | 协议名称                           | 功能                                                         | `allow_url_fopen` | `allow_url_include` | 示例                                                         |
 | ---------------------------------- | ------------------------------------------------------------ | ----------------- | ------------------- | ------------------------------------------------------------ |
-| `file://`                          | 访问本地文件系统                                             | **Off/On**        | **无**              | `file:///flag`                                               |
+| `file://`                          | 访问本地文件系统                                             | Off/On        | **无**              | `file:///flag`                                               |
 | `data://`                          | 数据（RFC 2397）                                             | **On**            | **On**              | `data://text/plain,<?php phpinfo();?>`<br /> `data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+` |
 | `http://`                          | 访问 HTTP(s) 网址                                            | **On**            | **On**              | `https://raw.githubusercontent.com/ProbiusOfficial/PHPinclude-labs/main/RFI` |
-| `php://`                           | 访问各个输入/输出流（I/O streams）                           | **Off/On**        | 基于参数            | `php://xxx`                                                  |
-| `php://input`                      | 访问请求的原始数据的只读流（RAW模式下POST中的DATA数据块）    | **Off/On**        | **On**              | `php://input` + [POST DATA部分]                              |
-| `php://filter`                     | 用于数据流打开时的筛选过滤应用                               | **Off/On**        | **Off/On**          | `php://filter/x=A\|B\|C\|/resouce=xxx`                       |
-| `zlib:// compress.bzip2:// zip://` | 压缩流，可以访问压缩文件中的子文件，更重要的是不需要指定后缀名，支持任意后缀。 | **Off/On**        | **Off/On**          | `zip://[压缩文件绝对路径]#[压缩文件内的子文件名]`<br />`compress.zlib://file.gz` <br />`compress.bzip2://file.bz2` |
+| `php://`                           | 访问各个输入/输出流（I/O streams）                           | Off/On        | 基于参数            | `php://xxx`                                                  |
+| `php://input`                      | 访问请求的原始数据的只读流（RAW模式下POST中的DATA数据块）    | Off/On        | **On**              | `php://input` + [POST DATA部分]                              |
+| `php://filter`                     | 用于数据流打开时的筛选过滤应用                               | Off/On        | Off/On          | `php://filter/x=A\|B\|C\|/resouce=xxx`                       |
+| `zlib:// compress.bzip2:// zip://` | 压缩流，可以访问压缩文件中的子文件，更重要的是不需要指定后缀名，支持任意后缀。 | Off/On        | Off/On          | `zip://[压缩文件绝对路径]#[压缩文件内的子文件名]`<br />`compress.zlib://file.gz` <br />`compress.bzip2://file.bz2` |
 | `phar://`                          | PHP 归档                                                     |                   | ？                  | ？                                                           |
 
 协议的介绍请跟进每个关卡中注释引导部分。
