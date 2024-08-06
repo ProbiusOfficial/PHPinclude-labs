@@ -27,7 +27,7 @@ register_argc_argv=On
 
 
 function hello_ctf($file){
-    if(preg_match("/file|http|ftp|zlib|data|glob|phar|ssh2|rar|ogg|expect|log|input|filter|log|tmp|/i", $file)){
+    if(preg_match("/file|http|ftp|zlib|data|glob|phar|ssh2|rar|ogg|expect|log|input|filter|log|tmp/i", $file)){
         die("WAF");
     }else{
         include ($file);

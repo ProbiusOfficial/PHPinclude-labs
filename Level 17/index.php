@@ -22,9 +22,7 @@ allow_url_include:On
 
 */
 
-function hello_ctf($file){ file($file); }
-    
-isset($_GET['file']) ? hello_ctf($_GET['file']) : '';
+file($_POST['file']);
 
 highlight_file(__FILE__);
 
