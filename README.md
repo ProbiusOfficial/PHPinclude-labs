@@ -33,6 +33,40 @@ DockerFile 还有后续关卡根据后面课程情况更新（ 还在想怎么�
 - Level 16: FilterChain:THE_END_OF_LFI
 - Level 17: FilterChain:file read from error-based oracle
 
+## 2024/08/06 - 08 更新
+
+修复了部分关卡的Dockerfile Error，修改部分关卡的源码以提高可读性。
+添加了不常见的一些 include 手段
+
+- Level 18:require/include_once 缺陷：绕过以重复包含文件
+    Modified From: [WMCTF2020]Make PHP Great Again.
+
+- Level 19:opcache缓存
+    Modified From: [湖湘杯2020] 题目名字不重要反正题挺简单的
+    OPcache会在特定的目录缓存编译后的PHP文件，以达到在你下次访问的时候直接调用缓存中的字节码以提高响应速度 —— 利用这一特性，如果我们复写缓存文件为恶意代码，那么下次调用的时候就会执行恶意代码。  
+    当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。  
+    具体的细节师傅们可以自行了解，你也可以通过修改该靶场的文件来搭建复写类型的RCE漏洞。  
+    [F12 - opcache导致的RCE复现 ](https://www.cnblogs.com/F12-blog/p/18001985)  
+    [笑花大王 - php7的Opcache getshell](https://www.cnblogs.com/xhds/p/13239331.html)
+
+- Level 20: pearcmd.php 
+    选自P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
+
+- Level 21: compress.zlib生成临时文件
+    Modified form [hxp 36C3 CTF]includer
+    参考文章：https://zeddyu.github.io/2020/01/08/36c3-web/#includer
+    
+- Level 22: Nginx 在后端 Fastcgi 响应过大产生临时文件
+    Modified form [HXPCTF 2021]includer's revenge
+    参考文章：https://tttang.com/archive/1384/
+
+- Level 23: 伪协议读文件二次URL编码
+    不多说 看关卡一目了然x
+
+## 更新感言
+这是PHP系列靶场，比较体系化的第二个，同上一个反序列化的靶场([PHPSerialize-labs](https://github.com/ProbiusOfficial/PHPSerialize-labs)),个人而言PHP其实已经是一个快退休的语言了，因为它在Web世界的占比越来越少，这一点我在备课相关课程和写这系列靶场的时候和朋友交流过，怀疑过有没有必要写这一系列的东西，我想安全研究更像是一种思想，它不针对任何一种语言，拿文件包含来说 —— 我们千方百计的从开发手册中挖掘各种各样的函数，去拼接各种各样的协议，到后面从语言甚至语言之外的中间件寻找各种各样的临时文件，这看起来应该不是针对这一种语言的...
+总之，希望这个靶场能够帮到你，哪怕一点点灵感——或许呢？
+
 ## WriteUp
 
 ### Level 0 include_base

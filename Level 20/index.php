@@ -11,7 +11,9 @@ include("get_flag.php");
 --- HelloCTF - 文件包含基础靶场 关卡 20 : pearcmd.php --- 
 
 P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
- 
+
+你可以在 demo.php 中获得一些灵感。
+
 该关卡配置:
 allow_url_fopen=Off
 allow_url_include=Off

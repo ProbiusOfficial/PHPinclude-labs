@@ -11,6 +11,14 @@ include("get_flag.php");
 --- HelloCTF - 文件包含基础靶场 关卡 19 : opcache缓存 --- 
 
 Modified From: [湖湘杯2020] 题目名字不重要反正题挺简单的
+
+OPcache会在特定的目录缓存编译后的PHP文件，以达到在你下次访问的时候直接调用缓存中的字节码以提高响应速度 —— 利用这一特性，如果我们复写缓存文件为恶意代码，那么下次调用的时候就会执行恶意代码。  
+当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。  
+具体的细节师傅们可以自行了解，你也可以通过修改该靶场的文件来搭建复写类型的RCE漏洞。  
+[F12 - opcache导致的RCE复现 ](https://www.cnblogs.com/F12-blog/p/18001985)  
+[笑花大王 - php7的Opcache getshell](https://www.cnblogs.com/xhds/p/13239331.html)
+
+计算对应ID的脚本以附在靶场中:exp.py
  
 该关卡配置:
 allow_url_fopen=Off
