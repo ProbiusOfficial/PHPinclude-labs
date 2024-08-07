@@ -1,12 +1,14 @@
-FROM php:7.3-apache
+FROM php:7.1-apache
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 
-WORKDIR /var/www/app
+WORKDIR /var/www/html
 
-COPY *.php /var/www/app/
+COPY *.php /var/www/html/
 
 # 重新设置源码路径的用户所有权
-RUN chown -R www-data:www-data /var/www/app
+RUN chown -R www-data:www-data /var/www/html
 RUN mkdir -p /var/log/apache2 && \
     chown -R www-data:www-data /var/log/apache2
 

@@ -16,7 +16,6 @@ COPY ./config/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/php.ini /usr/local/etc/php/conf.d
 
 # 复制web项目源码
-
 COPY *.php /var/www/html/
 
 # 重新设置源码路径的用户所有权

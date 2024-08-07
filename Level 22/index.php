@@ -16,7 +16,7 @@ Modified form [HXPCTF 2021]includer's revenge
 */
 
 function HelloCTF_WAF($file){
-    if(preg_match("/iconv|/i", $file)){
+    if(preg_match("/iconv/i", $file)){
         die("WAF");
     }else{
         return $file;

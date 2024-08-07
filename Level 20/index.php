@@ -35,9 +35,8 @@ function hello_ctf($file){
     
 }
 
-isset($_POST['file']) ? hello_ctf($_POST['file']) : phpinfo();
-
 highlight_file(__FILE__);
 
+isset($_POST['file']) ? hello_ctf($_POST['file']) : phpinfo();
 
 ?>

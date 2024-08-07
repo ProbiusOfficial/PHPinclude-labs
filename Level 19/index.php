@@ -31,6 +31,8 @@ opcache.file_cache=/var/www/html/opcache
 
 function hello_ctf($file){
     
+    //I heard you are good at PHPINFO+LFI, flag is in flag.php, find it my dear noob vegetable hacker.
+
     if ( $file === "phpinfo" ) {
         phpinfo();
         exit;

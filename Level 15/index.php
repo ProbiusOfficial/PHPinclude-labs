@@ -21,7 +21,7 @@ allow_url_include:On
 */
 
 function hello_ctf($file){
-    if(preg_match("/file|http|ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect|log|\.|\:|/i", $file)){
+    if(preg_match("/file|http|ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect|log|\.|\:/i", $file)){
         die("No Wrappers! No log! No suffix!");
     }
     include($file);
