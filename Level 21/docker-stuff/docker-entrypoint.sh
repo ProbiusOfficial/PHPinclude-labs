@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
-# https://github.com/romeOz/docker-apache-php
+rm -f /docker-entrypoint.sh
+
+# Get the user
+user=$(ls /home)
 
 # Check the environment variables for the flag and assign to INSERT_FLAG
 # 需要注意，以下语句会将FLAG相关传递变量进行覆盖，如果需要，请注意修改相关操作
@@ -25,13 +28,3 @@ echo $INSERT_FLAG | tee /flag
 
 chmod 744 /flag
 
-
-source /etc/apache2/envvars
-
-rm /var/log/apache2/access.log
-rm /var/log/apache2/error.log
-touch /var/log/apache2/access.log
-touch /var/log/apache2/error.log
-chown www-data:www-data /var/log/apache2/access.log /var/log/apache2/error.log
-
-exec apache2 -D FOREGROUND

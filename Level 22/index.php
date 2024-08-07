@@ -13,6 +13,8 @@ Modified form [HXPCTF 2021]includer's revenge
 
 参考文章：https://tttang.com/archive/1384/
  
+注:该关卡未完成可行性验证，如果您遇见无法解题的问题，请及时提交 issue 进行反馈。
+
 */
 
 function HelloCTF_WAF($file){

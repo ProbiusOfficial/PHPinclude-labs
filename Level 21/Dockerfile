@@ -1,7 +1,10 @@
 # echo 'hxp{FLAG}' > flag.txt && docker build -t includer . && docker run -ti -p 8004:80 includer
 FROM debian:buster
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+# 更换国内源以加速构建
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+    apt update && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
         nginx \
         php-fpm \

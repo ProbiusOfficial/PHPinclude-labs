@@ -4,7 +4,7 @@ import requests
 import hashlib
 from packaging import version  # pip install packaging
 
-url = 'http://core.hello-ctf.com:32849/'
+url = 'http://core.hello-ctf.com:32882/'
 phpinfo_url = url + '/?file=phpinfo'
 
 text = requests.get(phpinfo_url).text

@@ -6,7 +6,8 @@ WORKDIR /var/www/html
 COPY *.php /var/www/html/
 
 # 重新设置源码路径的用户所有权
-RUN chown -R www-data:www-data /var/www/html
+RUN mkdir -p /var/www/html/opcache && \
+    chown -R www-data:www-data /var/www/html
 RUN mkdir -p /var/log/apache2 && \
     chown -R www-data:www-data /var/log/apache2
 

@@ -12,6 +12,8 @@
 Modified form [hxp 36C3 CTF]includer
 
 参考文章：https://zeddyu.github.io/2020/01/08/36c3-web/#includer
+
+注:该关卡未完成可行性验证，如果您遇见无法解题的问题，请及时提交 issue 进行反馈。
  
 */
 

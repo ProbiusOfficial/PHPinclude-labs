@@ -5,7 +5,10 @@
 
 FROM debian:bullseye
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+# 更换国内源以加速构建
+RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+    apt update && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
         nginx \
         php-fpm \
@@ -25,7 +28,7 @@ COPY docker-stuff/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 #  1 --x
 #  0 ---
 
-COPY flag.txt docker-stuff/readflag /
+COPY flag.txt docker-stuff/readflag  /
 RUN chown 0:1337 /flag.txt /readflag && \
     chmod 040 /flag.txt && \
     chmod 2555 /readflag
@@ -48,3 +51,5 @@ USER root
 
 CMD /etc/init.d/php7.4-fpm start && \
     nginx -g 'daemon off;'
+
+ENTRYPOINT [ "executable" ]
