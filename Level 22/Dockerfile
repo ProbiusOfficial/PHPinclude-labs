@@ -7,9 +7,10 @@ FROM debian:bullseye
 
 # 更换国内源以加速构建
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
-    apt update && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
+        apt-utils \
         nginx \
         php-fpm \
     && rm -rf /var/lib/apt/lists/
@@ -52,4 +53,3 @@ USER root
 CMD /etc/init.d/php7.4-fpm start && \
     nginx -g 'daemon off;'
 
-ENTRYPOINT [ "executable" ]

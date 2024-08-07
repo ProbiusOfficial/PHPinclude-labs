@@ -3,9 +3,10 @@ FROM debian:buster
 
 # 更换国内源以加速构建
 RUN sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
-    apt update && \
+    apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     apt-get install -y \
+        apt-utils \
         nginx \
         php-fpm \
     && rm -rf /var/lib/apt/lists/
@@ -51,7 +52,6 @@ USER 1337:1337
 RUN ! find / -writable -or -user 1337 -or -group 1337 2> /dev/null | grep -Ev -m 1 '^(/dev/|/run/|/proc/|/sys/|/var/tmp|/var/lock|/var/log/nginx/error.log|/var/log/nginx/access.log|/var/www/html/files|/readflag|/flag.txt)'
 USER root
 
-EXPOSE 80
 CMD while true; do find /var/www/html/files/ -maxdepth 1 -mindepth 1 -type d -mmin +15 -exec rm -rf -- {} \; ; sleep 1m; done & \
     /etc/init.d/php7.3-fpm start && \
     nginx -g 'daemon off;'
