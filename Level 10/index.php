@@ -28,6 +28,7 @@ allow_url_include:On
 /* 我觉得你的基础做这一关肯定没问题ww */
 
 function hello_ctf($file){
+    $file = file_get_contents($file);
     if(preg_match("/flag/", $file)){
         die("You CANNOT See The Secret Message!");
     }else{
