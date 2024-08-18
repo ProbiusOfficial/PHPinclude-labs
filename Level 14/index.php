@@ -19,6 +19,14 @@ Apache 的日志位置可能会因为题目所用镜像版本不同而有所差�
 allow_url_fopen:On
 allow_url_include:Off
 
+short_open_tag = On
+
+PHP的标签有至少四种：<?php ?>、<\?= ?>、<script language="php"></script>、<\? ?>、<\% %>(ASP风格)、<\%= %>。
+"<\? ?>"的支持需要short_open_tag=On。
+"<\%%>"的支持需要asp_tags=On。
+"<\?= ?>"总是有效的，无论short_open_tag是否设置。
+除了<?php ?>和<\?=?>其他的标签在PHP7.0.0中被移除,强烈建议使用<?php?>标签，代码才能更好的兼容性。
+
 相关文件：
 - 根目录下 flag 文件，flag以文本形式存储在文件中。
 
