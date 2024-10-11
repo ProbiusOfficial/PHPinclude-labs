@@ -14,11 +14,17 @@ include("get_flag.php");
 该关卡配置:
 allow_url_fopen:On
 allow_url_include:On
+默认路径:/var/lib/sessions
 
 相关文件：
 - 根目录下 flag 文件，flag以文本形式存储在文件中。
 
-*/
+ */
+// 启动 PHP session
+session_start();
+
+// 设置一个 session 变量（可选）
+$_SESSION['username'] = 'HELLO CTF'; 
 
 function hello_ctf($file){
     if(preg_match("/file|http|ftp|php|zlib|data|glob|phar|ssh2|rar|ogg|expect|log|\.|\:/i", $file)){

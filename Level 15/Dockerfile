@@ -15,6 +15,12 @@ RUN chmod +x /docker-entrypoint.sh
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/php.ini /usr/local/etc/php/conf.d
 
+
+# 创建 session 保存路径，并设置权限
+RUN mkdir -p /var/lib/sessions && \
+    chown -R www-data:www-data /var/lib/sessions && \
+    chmod 700 /var/lib/sessions
+
 # 复制web项目源码
 
 COPY *.php /var/www/html/
@@ -26,7 +32,7 @@ RUN chown -R www-data:www-data /var/www/html
 WORKDIR /var/www/html
 
 # [可选]指定对外暴露端口，对于GZCTF等平台，强制EXPOSE可能会造成非预期端口泄露，请酌情启用
-# EXPOSE 80
+# EXPOSE 81
 
 # 设置nginx日志保存目录
 VOLUME ["/var/log/nginx"]
