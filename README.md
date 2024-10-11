@@ -388,18 +388,66 @@ RFI-  Remote File Inclusion,远程文件包含: 读取并执行远程服务器�
 
 ### Level 13 LFI_日志文件包含\_Nginx
 
+<<<<<<< HEAD
 
 
 ### Level 14 LFI_日志文件包含\_Apache
 
 
+=======
+访问日志文件，可以成功读取
+
+bp抓包尝试user-agent注入phpinfo成功
+
+写入一句话木马
+
+后台链接
+
+### Level 14 LFI_日志文件包含\_Apache
+
+同level 13，日志文件路径不同。
+
+(小声说一句这个洞只有你猜到路径才有，一般来说不会是默认路径)
+
+![image-20240806112106652](./assets/level14.png)
+>>>>>>> fast
 
 ### Level 15 LFI_Session文件包含
 
+这个漏洞可以有两种利用，为了方便两种利用方式应该都可以实现
 
+1.利用原本的cookie 
+
+注入一句话木马如之前
+
+利用原本的cookie index.php?file=/var/lib/sessions/Cookie
+
+蚁剑链接
+
+2.注入cookie 
+
+cookie editor 注入一个cookie 然后如1
 
 ###  Level 16 FilterChain:THE_END_OF_LFI
+
+根据题目 action=read resource=flga.php即可
+
+我发现也不一定非得用exp 构造
+
+payload:
+
+?file=php://filter/read=convert.base64-encode/resource=flag.php&action=read
+
+得到Base64编码后的结果
+
+解码即可
 
 
 
 ### Level 17 FilterChain:file read from error-based oracle
+
+根据题目信息 下载exp
+
+运行拿到flag
+
+![image-20240806112106652](./assets/level17.png)
