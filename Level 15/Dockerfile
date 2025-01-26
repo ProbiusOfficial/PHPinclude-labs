@@ -31,7 +31,7 @@ RUN chown -R www-data:www-data /var/www/html
 # 设置shell的工作目录
 WORKDIR /var/www/html
 
-# [可选]指定对外暴露端口，对于GZCTF等平台，强制EXPOSE可能会造成非预期端口泄露，请酌情启用
+# 指定对外开放端口为 80
 # EXPOSE 81
 
 # 设置nginx日志保存目录
