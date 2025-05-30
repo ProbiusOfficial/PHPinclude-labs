@@ -64,6 +64,13 @@ PHP文件包含类靶场，各类协议的讲解以及基于协议的LFI/RFI。
 
 [Payloads All The Things-利用wrapper实现文件包含](https://swisskyrepo.github.io/PayloadsAllTheThings/File%20Inclusion/Wrappers/)
 
+## Future
+Level 11+ 关于 file_put_content ：  
+
+[file_put_content和死亡·杂糅代码之缘](https://xz.aliyun.com/news/7758#toc-7)  
+
+[关于file_put_contents的一些小测试](https://cyc1e183.github.io/2020/04/03/%E5%85%B3%E4%BA%8Efile_put_contents%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%B5%8B%E8%AF%95/)
+
 ## WriteUp
 
 ### Level 0 include_base
